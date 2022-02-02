@@ -9,7 +9,7 @@ var family = new FamilyTree('#tree', {
         generateElementsFromFields: false,
         photoBinding: "photo",        
         elements: [
-            { type: 'textbox', label: 'Photo Url', binding: 'ImgUrl', btn: 'Upload' },
+            { type: 'textbox', label: 'Photo Url', binding: 'photo', btn: 'Upload' },
         ]
     }
 });
@@ -26,10 +26,8 @@ family.editUI.on('element-btn-click', function (sender, args) {
         })
             .then(response => {
                 response.json().then(responseData => {
-                    var data = family.get(args.nodeId);
-                    data.photo = responseData.url;
-                    family.updateNode(data);
-                    family.editUI.show(args.nodeId, false, true);
+                    args.input.value = responseData.url;
+                    sender.setAvatar(responseData.url);
                 });
             });
     });
